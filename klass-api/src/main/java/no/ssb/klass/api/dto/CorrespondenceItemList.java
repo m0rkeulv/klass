@@ -3,10 +3,7 @@ package no.ssb.klass.api.dto;
 import static java.util.stream.Collectors.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -18,9 +15,13 @@ import no.ssb.klass.core.service.dto.CorrespondenceDto;
 import no.ssb.klass.core.util.DateRange;
 import no.ssb.klass.core.util.TimeUtil;
 import no.ssb.klass.api.dto.CorrespondenceItem.RangedCorrespondenceItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @JacksonXmlRootElement(localName = "correspondenceItemList")
 public class CorrespondenceItemList {
+    private static final Logger log = LoggerFactory.getLogger(CorrespondenceItemList.class);
+
     private final char csvSeparator;
     private final boolean displayWithValidRange;
     private final List<RangedCorrespondenceItem> correspondenceItems;
@@ -37,7 +38,7 @@ public class CorrespondenceItemList {
     }
 
     public CorrespondenceItemList(char csvSeparator, boolean displayWithValidRange,
-            List<RangedCorrespondenceItem> correspondenceItems, boolean includeFuture) {
+                                  List<RangedCorrespondenceItem> correspondenceItems, boolean includeFuture) {
         this.csvSeparator = csvSeparator;
         this.displayWithValidRange = displayWithValidRange;
         this.correspondenceItems = correspondenceItems;
@@ -73,12 +74,24 @@ public class CorrespondenceItemList {
     }
 
     public CorrespondenceItemList limit(DateRange dateRange) {
+        List<RangedCorrespondenceItem> aremark = correspondenceItems.stream()
+                .filter(i -> i.getTargetName().equalsIgnoreCase("aremark"))
+                .sorted(Comparator.comparing(RangedCorrespondenceItem::getValidFrom))
+                .collect(toList());
+        log.error("\nKF-316: before limit aremark " + aremark);
+
         return newCorrespondenceItemList(correspondenceItems.stream().map(
                 correspondenceItem -> new RangedCorrespondenceItem(correspondenceItem, correspondenceItem.getDateRange(includeFuture)
                         .subRange(dateRange))).collect(toList()));
     }
 
     public CorrespondenceItemList compress() {
+        List<RangedCorrespondenceItem> aremark = correspondenceItems.stream()
+                .filter(i -> i.getTargetName().equalsIgnoreCase("aremark"))
+                .sorted(Comparator.comparing(RangedCorrespondenceItem::getValidFrom))
+                .collect(toList());
+        log.error("\nKF-316: before merge aremark list" + aremark);
+
         Map<RangedCorrespondenceItem, List<RangedCorrespondenceItem>> grouped = correspondenceItems.stream().collect(
                 groupingBy(correspondenceItem -> correspondenceItem));
         return newCorrespondenceItemList(grouped.entrySet().stream().map(entry -> combineCorrespondenceItems(entry
@@ -86,7 +99,7 @@ public class CorrespondenceItemList {
     }
 
     private RangedCorrespondenceItem combineCorrespondenceItems(RangedCorrespondenceItem base,
-            List<RangedCorrespondenceItem> correspondenceItems) {
+                                                                List<RangedCorrespondenceItem> correspondenceItems) {
         // TODO kmgv need to check dateRanges of correspondenceItems, and group those that are back to back.
         DateRange dateRange = DateRange.create(minValidFrom(correspondenceItems), maxValidTo(correspondenceItems));
         return new RangedCorrespondenceItem(base, dateRange);
