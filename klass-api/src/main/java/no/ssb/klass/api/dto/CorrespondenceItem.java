@@ -135,5 +135,15 @@ public class CorrespondenceItem implements Comparable<CorrespondenceItem> {
             return validRange;
         }
 
+        @Override
+        public String toString() {
+            return "\nRangedCorrespondenceItem{" +
+                    "sourceCode='" + super.sourceCode + '\'' +
+                    ", sourceName='" + super.sourceName.toUpperCase() + '\'' +
+                    ", targetCode='" + super.targetCode + '\'' +
+                    ", targetName='_______" + super.targetName.toUpperCase() + '\'' +
+                    ", validRange=" + validRange +
+                    '}';
+        }
     }
 }

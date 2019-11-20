@@ -78,7 +78,7 @@ public class CorrespondenceItemList {
                 .filter(i -> i.getTargetName().equalsIgnoreCase("aremark"))
                 .sorted(Comparator.comparing(RangedCorrespondenceItem::getValidFrom))
                 .collect(toList());
-        log.error("\nKF-316: before limit aremark " + aremark);
+        log.error("\nK\nF-316: before limit aremark " + aremark);
 
         return newCorrespondenceItemList(correspondenceItems.stream().map(
                 correspondenceItem -> new RangedCorrespondenceItem(correspondenceItem, correspondenceItem.getDateRange(includeFuture)
@@ -90,7 +90,7 @@ public class CorrespondenceItemList {
                 .filter(i -> i.getTargetName().equalsIgnoreCase("aremark"))
                 .sorted(Comparator.comparing(RangedCorrespondenceItem::getValidFrom))
                 .collect(toList());
-        log.error("\nKF-316: before merge aremark list" + aremark);
+        log.error("\n\nKF-316: before compress aremark list" + aremark);
 
         Map<RangedCorrespondenceItem, List<RangedCorrespondenceItem>> grouped = correspondenceItems.stream().collect(
                 groupingBy(correspondenceItem -> correspondenceItem));
