@@ -8,6 +8,7 @@ import no.ssb.klass.core.model.Level;
 import no.ssb.klass.core.util.DateRange;
 
 public class CodeDto {
+    private final Long id;
     private final String code;
     private final String parentCode;
     private final String officialName;
@@ -21,6 +22,7 @@ public class CodeDto {
         checkNotNull(item);
         checkNotNull(dateRange);
         checkNotNull(language);
+        this.id = item.getId();
         this.code = item.getCode();
         ClassificationItem parent = item.getParent();
         this.parentCode = parent == null ? null : parent.getCode();
@@ -30,6 +32,10 @@ public class CodeDto {
         this.dateRange = dateRange;
         this.validity = item.getValidFrom() == null ? null : DateRange.create(item.getValidFrom(), item.getValidTo());
 
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getCode() {
