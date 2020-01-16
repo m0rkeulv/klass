@@ -14,9 +14,10 @@ import no.ssb.klass.core.util.TimeUtil;
 import no.ssb.klass.api.util.CustomLocalDateSerializer;
 import no.ssb.klass.api.util.PresentationNameBuilder;
 
-@JsonPropertyOrder(value = { "code", "parentCode", "level", "name", "shortName", "presentationName", "validFrom",
+@JsonPropertyOrder(value = { "id", "code", "parentCode", "level", "name", "shortName", "presentationName", "validFrom",
         "validTo" })
 public class CodeItem implements Comparable<CodeItem> {
+    private final Long id;
     private final String code;
     private final String parentCode;
     private final String name;
@@ -26,6 +27,7 @@ public class CodeItem implements Comparable<CodeItem> {
     private final DateRange validity;
 
     public CodeItem(CodeItem codeItem, PresentationNameBuilder builder) {
+        this.id = codeItem.getId();
         this.code = codeItem.getCode();
         this.parentCode = codeItem.getParentCode();
         this.name = codeItem.getName();
@@ -37,6 +39,7 @@ public class CodeItem implements Comparable<CodeItem> {
     }
 
     public CodeItem(CodeItem codeItem) {
+        this.id = codeItem.getId();
         this.code = codeItem.getCode();
         this.parentCode = codeItem.getParentCode();
         this.name = codeItem.getName();
@@ -47,6 +50,7 @@ public class CodeItem implements Comparable<CodeItem> {
     }
 
     public CodeItem(CodeDto code) {
+        this.id = code.getId();
         this.code = code.getCode();
         this.parentCode = code.getParentCode();
         this.name = code.getOfficialName();
@@ -54,6 +58,10 @@ public class CodeItem implements Comparable<CodeItem> {
         this.level = code.getLevel();
         this.validity = code.getValidity();
         this.presentationName = "";
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getCode() {
@@ -127,7 +135,7 @@ public class CodeItem implements Comparable<CodeItem> {
     /**
      * A CodeItem with date range information (version validity mapped to request range)
      */
-    @JsonPropertyOrder(value = { "code", "parentCode", "level", "name", "shortName", "presentationName",
+    @JsonPropertyOrder(value = {"id", "code", "parentCode", "level", "name", "shortName", "presentationName",
             "validFrom",
             "validTo",
             "validFromInRequestedRange",
