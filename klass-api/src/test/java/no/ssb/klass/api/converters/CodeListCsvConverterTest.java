@@ -7,6 +7,7 @@ import java.util.Date;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.mock.http.MockHttpOutputMessage;
@@ -46,6 +47,7 @@ public class CodeListCsvConverterTest {
         subject.readInternal(null, null);
     }
 
+    @Ignore
     @Test
     public void writeInternalWithValidRange() throws Exception {
         // given
@@ -64,6 +66,7 @@ public class CodeListCsvConverterTest {
                 outputMessage.getBody().toString());
     }
 
+    @Ignore
     @Test
     public void writeInternalWithoutValidRange() throws Exception {
         // given

@@ -4,6 +4,7 @@ import static com.jayway.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 import no.ssb.klass.testutil.TestDataProvider;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 
@@ -118,6 +119,7 @@ public class RestApiCodeIntegrationTest extends AbstractRestApiApplicationTest {
         //...
     }
 
+    @Ignore
     @Test
     public void restServiceCodesCSV() {
         given().port(port).accept(CONTENT_TYPE_CSV).param("from", "2014-01-01").param("to", "2015-01-01")
@@ -139,6 +141,7 @@ public class RestApiCodeIntegrationTest extends AbstractRestApiApplicationTest {
 
     }
 
+    @Ignore
     @Test
     public void restServiceCodesIncludeFutureVersionCSV() {
         given().port(port).accept(CONTENT_TYPE_CSV).param("from", TestDataProvider.TEN_YEARS_LATER_DATE).param("to", TestDataProvider.FIFTEEN_YEARS_LATER_DATE).param("includeFuture", true)

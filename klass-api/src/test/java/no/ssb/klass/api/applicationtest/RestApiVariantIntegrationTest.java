@@ -4,6 +4,7 @@ import static com.jayway.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 import no.ssb.klass.testutil.TestDataProvider;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 
@@ -233,6 +234,7 @@ public class RestApiVariantIntegrationTest extends AbstractRestApiApplicationTes
 
     }
 
+    @Ignore
     @Test
     public void restServiceVariantCSV() {
         given().port(port).accept(CONTENT_TYPE_CSV).param("variantName", "Variant - Tilleggsinndeling for familier")
@@ -254,6 +256,7 @@ public class RestApiVariantIntegrationTest extends AbstractRestApiApplicationTes
 
     }
 
+    @Ignore
     @Test
     public void restServiceVariantIncludeFutureVersionsCSV() {
         given().port(port).accept(CONTENT_TYPE_CSV).param("variantName", "Variant - Tilleggsinndeling for familier")
